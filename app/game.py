@@ -50,7 +50,6 @@ class Game:
                         self.secuencia = []
         return self.secuencia
 
-
     def creaComputadora(self):
         posiblesOpciones = [self.rojo, self.azul, self.amarillo, self.verde]
         while True:
@@ -76,7 +75,6 @@ class Game:
                     print("¡La computadora ha ganado!")
                     print(''.join(eleccionComputadora) + self.reset)
                     break
-
 
     def eleccionJugador(self):
         intentos = 1
@@ -105,7 +103,7 @@ class Game:
                         print("Introduzca una respuesta correcta.")
                 
                 print("|", "".join(eleccionJugador) + self.reset, "|")
-            if eleccionJugador == self.secuencia:
+            aciertos = sum(min(1 for e            if eleccionJugador == self.secuencia:
                 print("¡Felicidades, has ganado!")
                 break
             else:
