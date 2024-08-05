@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=c:\Users\Latitude 5490\Desktop\mastermind\colorlePY\.venv
+set VIRTUAL_ENV=c:\Users\Latitude 5490\Desktop\mastermind\.venv
 
 if not defined PROMPT set PROMPT=$P$G
 
