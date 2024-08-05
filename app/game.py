@@ -1,20 +1,17 @@
 from colorama import Fore
 from time import sleep
-import keyboard
 import random
 
 class Game:
-    #Juego, dividido en sus respectivas clases y métodos.
     def __init__(self, rojo, azul, verde, amarillo, reset):
         self.rojo = rojo
         self.azul = azul
         self.verde = verde
         self.amarillo = amarillo
         self.reset = reset
-        #Declaramos variables privadas.
         self.secuencia = []
         self.intentoDeAdivinarSecuencia = []
-    
+
     def elegirModo(self):
         while True:
             respuesta = input(f'¿Adivinas o creas la secuencia? (Adivinar / Crear): ').strip().lower()
@@ -26,29 +23,24 @@ class Game:
                 elif respuesta == 'crear':
                     self.creaJugador()
                 break
-                    
-                
-                
-                
+
     def creaJugador(self):
-        posiblesOpciones = (self.rojo, self.azul, self.amarillo, self.verde)
+        posiblesOpciones = [self.rojo, self.azul, self.amarillo, self.verde]
         while True:
-            opcion = input("Elige los colores de tu secuencia (r/b/y/g)")
-            if len(self.secuencia) <= 4:
+            opcion = input("Elige los colores de tu secuencia (r/b/y/g): ").strip().lower()
+            if len(self.secuencia) < 4:
                 match opcion:
                     case "r":
                         self.secuencia.append(posiblesOpciones[0])
-                        print("|", "".join(self.secuencia) + self.reset, "|")
                     case "b":
                         self.secuencia.append(posiblesOpciones[1])
-                        print("|", "".join(self.secuencia) + self.reset, "|")
                     case "y":
                         self.secuencia.append(posiblesOpciones[2])
-                        print("|", "".join(self.secuencia) + self.reset, "|")
                     case "g":
                         self.secuencia.append(posiblesOpciones[3])
-                        print("|", "".join(self.secuencia) + self.reset, "|")
-                        #En caso de haber alcanzado el limite de espacio.
+                    case _:
+                        print("Introduzca una respuesta correcta.")
+                print("|", "".join(self.secuencia) + self.reset, "|")
                 if len(self.secuencia) == 4:
                     confirm = input(f"¿Confirmar secuencia? (S/N): ").strip().lower()
                     if confirm == "s":
@@ -58,18 +50,16 @@ class Game:
                         self.secuencia = []
         return self.secuencia
 
-
     def creaComputadora(self):
+        posiblesOpciones = [self.rojo, self.azul, self.amarillo, self.verde]
         while True:
-            posiblesOpciones = [self.rojo, self.azul, self.amarillo, self.verde]
-            self.secuencia.insert(1, random.choice(posiblesOpciones) + self.reset)
-            if len(self.secuencia) == 4:
-                print(''.join(self.secuencia) + self.reset)
-
+            self.secuencia = [random.choice(posiblesOpciones) for _ in range(4)]
+            self.eleccionJugador()
+            break
+        print("".join(self.secuencia))
 
     def eleccionAzar(self):
         posiblesOpciones = [self.rojo, self.azul, self.amarillo, self.verde]
-        eleccionComputadora = []
         intentos = 0
         while True:
             if intentos == 12:
@@ -83,14 +73,46 @@ class Game:
                 print('La elección de la computadora es: ', ''.join(eleccionComputadora) + self.reset)
                 if eleccionComputadora == self.secuencia:
                     print("¡La computadora ha ganado!")
-                    print(''.join(eleccionComputadora))
+                    print(''.join(eleccionComputadora) + self.reset)
                     break
-    
+
+    def eleccionJugador(self):
+        intentos = 1
+        
+        while True:
+            if intentos > 12:
+                print("Número máximo de intentos alcanzado. Perdiste.")
+                break
+            
+            print(f"Ronda: {intentos}")
+            eleccionJugador = []
+            
+            while len(eleccionJugador) < 4:
+                opcion = input("Elige los colores de tu secuencia (r/b/y/g). Para terminar la secuencia: ").strip().lower()
+                
+                match opcion:
+                    case "r":
+                        eleccionJugador.append(self.rojo)
+                    case "b":
+                        eleccionJugador.append(self.azul)
+                    case "y":
+                        eleccionJugador.append(self.amarillo)
+                    case "g":
+                        eleccionJugador.append(self.verde)
+                    case _:
+                        print("Introduzca una respuesta correcta.")
+                
+                print("|", "".join(eleccionJugador) + self.reset, "|")
+            aciertos = sum(min(1 for e            if eleccionJugador == self.secuencia:
+                print("¡Felicidades, has ganado!")
+                break
+            else:
+                eleccionJugador = []
+                intentos += 1
 
 def main():
     Juego = Game(azul=(Fore.BLUE + " O "), rojo=(Fore.RED + " O "), amarillo=(Fore.YELLOW + " O "), verde=(Fore.GREEN + " O "), reset=Fore.RESET)
     Juego.elegirModo()
 
 if __name__ == "__main__":
-    # Inicializador del archivo.
     main()
